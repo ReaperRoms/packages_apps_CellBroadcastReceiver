@@ -270,8 +270,7 @@ public class CellBroadcastAlertDialog extends Activity {
 
         // For emergency alerts, keep screen on so the user can read it
         CellBroadcastMessage message = getLatestMessage();
-        if (message != null && CellBroadcastAlertService.
-                isEmergencyMessage(this, message)) {
+        if (message != null && message.isEmergencyAlertMessage()) {
             Log.d(TAG, "onCreate setting screen on timer for emergency alert");
             mScreenOffHandler.startScreenOnTimer();
         }
@@ -286,8 +285,7 @@ public class CellBroadcastAlertDialog extends Activity {
     protected void onResume() {
         super.onResume();
         CellBroadcastMessage message = getLatestMessage();
-        if (message != null && CellBroadcastAlertService.
-                isEmergencyMessage(this, message)) {
+        if (message != null && message.isEmergencyAlertMessage()) {
             mAnimationHandler.startIconAnimation();
         }
     }
@@ -351,8 +349,7 @@ public class CellBroadcastAlertDialog extends Activity {
      * @param message CB message which is used to update alert text.
      */
     private void updateAlertText(CellBroadcastMessage message) {
-        int titleId = CellBroadcastResources.getDialogTitleResource(
-                getApplicationContext(), message);
+        int titleId = CellBroadcastResources.getDialogTitleResource(message);
         setTitle(titleId);
         ((TextView) findViewById(R.id.alertTitle)).setText(titleId);
         ((TextView) findViewById(R.id.message)).setText(message.getMessageBody());
@@ -440,8 +437,7 @@ public class CellBroadcastAlertDialog extends Activity {
         CellBroadcastMessage nextMessage = getLatestMessage();
         if (nextMessage != null) {
             updateAlertText(nextMessage);
-            if (CellBroadcastAlertService.isEmergencyMessage(
-                    this, nextMessage)) {
+            if (nextMessage.isEmergencyAlertMessage()) {
                 mAnimationHandler.startIconAnimation();
             } else {
                 mAnimationHandler.stopIconAnimation();
