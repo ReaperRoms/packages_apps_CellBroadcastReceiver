@@ -197,13 +197,9 @@ public class CellBroadcastSettings extends PreferenceActivity {
                         }
                     };
 
-            // Show extra settings when developer options is enabled in settings
-            // AND build type is not user
-            boolean enableDevSettings = false;
-            if (!Build.TYPE.equals("user")) {
-                enableDevSettings = Settings.Global.getInt(getActivity().getContentResolver(),
-                        Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
-            }
+            // Show extra settings when developer options is enabled in settings.
+            boolean enableDevSettings = Settings.Global.getInt(getContext().getContentResolver(),
+                    Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
 
             Resources res = getResources();
             boolean showEtwsSettings = res.getBoolean(R.bool.show_etws_settings);
